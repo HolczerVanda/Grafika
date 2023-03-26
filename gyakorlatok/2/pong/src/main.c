@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
 {
     Game game;
 
-    init_game(&game, 800, 600);
+    init_game(&game, 800, 450);
     while (game.is_running) {
         handle_game_events(&game);
         update_game(&game);
