@@ -9,6 +9,9 @@
 typedef struct Scene
 {
     Model cube;
+    Model cat;
+    Model deer;
+    float rotation_speed;
     Material material;
     GLuint texture_id;
 } Scene;
@@ -42,5 +45,10 @@ void render_scene(const Scene* scene);
  * Draw the origin of the world coordinate system.
  */
 void draw_origin();
+
+/**
+ * Sets the objects rotation speed
+*/
+void set_obj_rotation(Scene *scene, double speed);
 
 #endif /* SCENE_H */

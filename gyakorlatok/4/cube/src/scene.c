@@ -2,10 +2,16 @@
 
 #include <obj/load.h>
 #include <obj/draw.h>
+#include <obj/transform.h>
 
-void init_scene(Scene* scene)
+#include <SDL2/SDL_image.h>
+
+#define PI 3.14159265359
+
+void init_scene(Scene *scene)
 {
-    load_model(&(scene->cube), "assets/models/cube.obj");
+    load_model(&(scene->cat), "assets/models/cat.obj");
+    load_model(&(scene->deer), "assets/models/deer.obj");
     scene->texture_id = load_texture("assets/textures/cube.png");
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
@@ -21,6 +27,8 @@ void init_scene(Scene* scene)
     scene->material.specular.red = 0.0;
     scene->material.specular.green = 0.0;
     scene->material.specular.blue = 0.0;
+
+    scene->rotation_speed = 0.0f;
 
     scene->material.shininess = 0.0;
 }
@@ -69,14 +77,23 @@ void update_scene(Scene* scene)
 {
 }
 
-void render_scene(const Scene* scene)
+void set_obj_rotation(Scene *scene, double speed)
+{
+    double current_time = (double)SDL_GetTicks() / 1000;
+    scene->rotation_speed = current_time * speed / PI;
+}
+
+void render_scene(const Scene *scene)
 {
     set_material(&(scene->material));
     set_lighting();
+    glPushMatrix();
     draw_origin();
     glRotatef(90, 1, 0, 0);
-    glScalef(0.1, 0.1, 0.1);
-    draw_model(&(scene->cube));
+    glRotatef(scene->rotation_speed, 0, 1, 0);
+    draw_model(&(scene->cat));
+    draw_model(&(scene->deer));
+    glPopMatrix();
 }
 
 void draw_origin()
