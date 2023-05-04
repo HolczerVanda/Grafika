@@ -1,10 +1,14 @@
 # Grafika
-Beadandó feladat:  
-Egy egyszerű játék, amelynek célja adott számú gyémánt összegyűjtése.  
--Betöltés után megjelenik egy 'Help' képernyő, amely rövid leírást ad a játékról és az irányításról, ezt az F1 billentyű lenyomásával lehet bezárni (és később megnyitni is)  
--A játék belsőnézetes, a játékos az egér és a billentyűk segítségével tud mozogni  
--A pályán köd (Köd) van, valamint fal veszi körül  
--A képernyőn megjelenő gombokkal kiválasztható a játék nehézsége, minél nagyobb a nehézségi szint, annál nagyobb a köd (Felhasználói felület)  
--A pályán random koordinátákon megjelennek Gyémánt objektumok, amelyekhez, ha elég közel van (Ütközésvizsgálat) a játékos egy billentyű megnyomásával fel tudja venni őket és a pontszám eggyel nő  
--Adott számú gyémánt összegyűjtése után a játék véget ér, a játékos nyert, ezt egy felugró képernyő jelzi  
--A fények a + és - billentyűkkel szabályozhatóak
+## Beadandó feladat:  
+### Egy egyszerű játék, amelynek célja adott számú gyémánt összegyűjtése.
+#### Technikai tudnivalók:
+* Betöltés után megjelenik egy 'Help' képernyő, amely rövid leírást ad a játékról és az irányításról, ezt az F1 billentyű lenyomásával lehet bezárni ( és később megnyitni is )
+* A játék belsőnézetes, a játékos az egér és a billentyűk segítségével tud mozogni  
+* A pályán köd **_(Köd)_** van, valamint fal veszi körül
+* A játék elején a képernyőn megjelenő gombokkal kiválasztható a játék nehézsége, minél nagyobb a nehézségi szint, annál nagyobb a köd **_(Felhasználói felület)_**
+* A fények a + és - billentyűkkel szabályozhatóak
+#### Játékmenet:
+* A pályán random koordinátákon megjelenik egy Gyémánt objektum, amely forgó és emelkedő-süllyedő mozgást végez (animált)
+* Ha neki megy egy gyémántnak a játékos **_(Ütközésvizsgálat)_** fel tudja venni és a pontszám eggyel nő, majd egy random helyen megjelenik egy újabb gyémánt (ameddig nem nyert)
+* A képernyő jobb felső sarkában látható az aktuális pontszám
+* Adott számú gyémánt összegyűjtése után a játék véget ér, a játékos nyert, ezt egy felugró képernyő jelzi
