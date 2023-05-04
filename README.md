@@ -5,7 +5,7 @@
 * Betöltés után megjelenik egy 'Help' képernyő, amely rövid leírást ad a játékról és az irányításról, ezt az F1 billentyű lenyomásával lehet bezárni ( és később megnyitni is )
 * A játék belsőnézetes, a játékos az egér és a billentyűk segítségével tud mozogni  
 * A pályán köd **_(Köd)_** van, valamint fal veszi körül
-* A játék elején a képernyőn megjelenő gombokkal kiválasztható a játék nehézsége, minél nagyobb a nehézségi szint, annál nagyobb a köd **_(Felhasználói felület)_**
+* A játék elején kiválasztható a játék nehézsége, minél nagyobb a nehézségi szint, annál nagyobb a köd **_(Felhasználói felület)_**
 * A fények a + és - billentyűkkel szabályozhatóak
 #### Játékmenet:
 * A pályán random koordinátákon megjelenik egy Gyémánt objektum, amely forgó és emelkedő-süllyedő mozgást végez (animált)
