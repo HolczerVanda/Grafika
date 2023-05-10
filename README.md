@@ -8,7 +8,7 @@
 
 - Betöltés után megjelenik egy 'Help' képernyő, amely rövid leírást ad a játékról és az irányításról, ezt az F1 billentyű lenyomásával lehet bezárni ( és később megnyitni is )
 - A játék belsőnézetes, a játékos az egér és a billentyűk segítségével tud mozogni
-- A pálya egy erdei tisztás, amit köd **_(Köd)_** borít
+- A pályán köd **_(Köd)_** van, valamint fal veszi körül
 - A játék elején kiválasztható a játék nehézsége, minél nagyobb a nehézségi szint, annál nagyobb a köd **_(Felhasználói felület)_**
 - A fények a + és - billentyűkkel szabályozhatóak
 
