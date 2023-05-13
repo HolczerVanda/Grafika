@@ -44,11 +44,12 @@ void init_scene(Scene *scene)
 
     scene->showHelp = 1;
 
+    scene->start=clock();
     
     init_environment(&(scene->environment));
     init_diamond(&(scene->diamond));
 
-    scene->score = 0;
+    scene->diamond.score = 0;
     scene->show_win=false;
 
 
@@ -94,7 +95,7 @@ void set_material(const Material *material)
 void update_scene(Scene *scene)
 {
     set_lighting(scene->light);
-    if(scene->score >1){
+    if(scene->diamond.score >9){
         scene->show_win=true;
     }
 }
@@ -157,6 +158,8 @@ void render_scene(const Scene *scene)
     glRotated(90, 1, 0, 0);
     draw_model(&(scene->environment.Hill));
     glPopMatrix();
+
+    points(&(scene->diamond));
 }
 
 void draw_origin()

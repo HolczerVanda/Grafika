@@ -6,7 +6,7 @@
 #include <obj/model.h>
 #include "diamond.h"
 #include "environment.h"
-
+#include <time.h>
 typedef struct Scene
 {
     Material material;
@@ -15,12 +15,14 @@ typedef struct Scene
     Model ground;
     GLuint ground_texture;
     float light;
-    int score;
     bool show_win;
 
     Environment environment;
 
     GLuint help_texture_id;
+    clock_t start;
+    clock_t end;
+
 
     int showHelp;
 

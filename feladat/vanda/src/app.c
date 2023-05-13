@@ -117,10 +117,18 @@ void handle_app_events(App *app)
         case SDL_KEYDOWN:
             switch (event.key.keysym.scancode)
             {
+            case SDL_SCANCODE_T:
+                app->scene.end=clock();
+                printf("Elapsed time: %lf \n",( (float)(app->scene.end - app->scene.start) / CLOCKS_PER_SEC) );
+                if((float)(app->scene.end - app->scene.start) / CLOCKS_PER_SEC > 10)
+                    app->scene.show_win=true;
+                break;
             case SDL_SCANCODE_SPACE:
-                place_diamond(&(app->scene));
-                app->scene.score=0;
-                app->scene.show_win=false;
+                if(app->scene.diamond.score>9){
+                    place_diamond(&(app->scene));
+                    app->scene.diamond.score=0;
+                    app->scene.show_win=false;
+                }
                 break;
             case SDL_SCANCODE_V:
                 printf("Camera x: %lf y: %lf \n",app->camera.position.x, app->camera.position.y );
@@ -130,16 +138,16 @@ void handle_app_events(App *app)
                 app->is_running = false;
                 break;
             case SDL_SCANCODE_W:
-                set_camera_speed(&(app->camera), 1);
+                set_camera_speed(&(app->camera), 2);
                 break;
             case SDL_SCANCODE_S:
-                set_camera_speed(&(app->camera), -1);
+                set_camera_speed(&(app->camera), -2);
                 break;
             case SDL_SCANCODE_A:
-                set_camera_side_speed(&(app->camera), 1);
+                set_camera_side_speed(&(app->camera), 2);
                 break;
             case SDL_SCANCODE_D:
-                set_camera_side_speed(&(app->camera), -1);
+                set_camera_side_speed(&(app->camera), -2);
                 break;
             case SDL_SCANCODE_KP_PLUS:
                 app->scene.light += 0.1;
@@ -224,9 +232,9 @@ void update_app(App *app)
 
     if(diamond_x-range < app->camera.position.x &&  app->camera.position.x < diamond_x+range){
         if( diamond_y-range < app->camera.position.y &&  app->camera.position.y < diamond_y+range ){
-            app->scene.score++;
+            app->scene.diamond.score++;
             place_diamond(&(app->scene));
-            printf("A pontod : %d \n",app->scene.score);
+            printf("A pontod : %d \n",app->scene.diamond.score);
         }
     }
 

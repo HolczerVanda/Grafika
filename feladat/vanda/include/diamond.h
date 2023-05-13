@@ -15,9 +15,20 @@ typedef struct Diamond
     float diamond_y;
     float rotation_x;
     float rotation_z;
-    int score;
     bool is_max;
     bool is_min;
+    int score;
+    GLuint diamond_0_texture;
+    GLuint diamond_1_texture;
+    GLuint diamond_2_texture;
+    GLuint diamond_3_texture;
+    GLuint diamond_4_texture;
+    GLuint diamond_5_texture;
+    GLuint diamond_6_texture;
+    GLuint diamond_7_texture;
+    GLuint diamond_8_texture;
+    GLuint diamond_9_texture;
+    GLuint diamond_10_texture;
 
 } Diamond;
 
