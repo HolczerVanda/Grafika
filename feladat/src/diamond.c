@@ -6,7 +6,7 @@
 void init_diamond(Diamond *diamond)
 {
     load_model(&(diamond->diamond), "assets/models/diamond.obj");
-    diamond->diamond_texture = load_texture("assets/textures/coin.jpg");
+    diamond->diamond_texture = load_texture("assets/textures/diamond.jpg");
 
     diamond->diamond_0_texture= load_texture("assets/textures/diamonds_0.jpg");
     diamond->diamond_1_texture= load_texture("assets/textures/diamonds_1.jpg");
@@ -77,6 +77,7 @@ void points (Diamond *diamond){
     glDisable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
     glDisable(GL_DEPTH_TEST);
+    //glDisable(GL_FOG);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -98,8 +99,10 @@ void points (Diamond *diamond){
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
+    //glEnable(GL_FOG);
+
+    glFrustum(
+                        -.08, .08,
+                        -.06, .06,
+                        .1, 6000);
 }
-
-
-
-

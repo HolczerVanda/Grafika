@@ -81,12 +81,12 @@ void rotate_camera(Camera *camera, double horizontal, double vertical)
 
 void set_camera_speed(Camera *camera, double speed)
 {
-    camera->speed.y = speed;
+    camera->speed.y = speed*3;
 }
 
 void set_camera_side_speed(Camera *camera, double speed)
 {
-    camera->speed.x = speed;
+    camera->speed.x = speed*3;
 }
 
 void show_texture_preview()
@@ -128,10 +128,13 @@ int check_collisions(vec3 newposition)
     if ((newposition.x < -8) || (newposition.x > 8))
         return 1;
 
-    //  pillar
 
-    //if (calc_collision(newposition, 0.0, 0.0, 1.2, 0.5) == 1)
-        //return 1;
+    //Trees
+    if (calc_collision(newposition, 2.53, -5.51, 0.2, 0.3) == 1)
+        return 1;
+    
+    if (calc_collision(newposition, -5.373, 4.304, 0.2, 0.3) == 1)
+        return 1;
 
     // No collision found
     return 0;
@@ -139,7 +142,6 @@ int check_collisions(vec3 newposition)
 
 int calc_collision(vec3 newposition, float posX, float posY, float boxSizeX, float boxSizeY)
 {
-
     if ((newposition.x > posX - boxSizeX) && (newposition.x < posX + boxSizeX))
         if ((newposition.y > posY - boxSizeY) && (newposition.y < posY + boxSizeY))
             return 1;

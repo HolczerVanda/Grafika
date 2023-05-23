@@ -5,25 +5,37 @@
 #include <math.h>
 #include <obj/model.h>
 #include "diamond.h"
+#include "timer.h"
 #include "environment.h"
 #include <time.h>
 typedef struct Scene
 {
     Material material;
     Diamond diamond;
+    Timer timer;
+    int difficulty;
+    float fog_strength;
 
     Model ground;
     GLuint ground_texture;
     float light;
     bool show_win;
+    bool show_lose;
+
+    Model skybox;
+    GLuint skybox_texture;
+
+    GLuint easy_on;
+    GLuint medium_on;
+    GLuint hard_on;
+    GLuint easy_off;
+    GLuint medium_off;
+    GLuint hard_off;
 
     Environment environment;
 
     GLuint help_texture_id;
-    clock_t start;
-    clock_t end;
-
-
+    
     int showHelp;
 
 } Scene;
@@ -64,5 +76,10 @@ void render_scene(const Scene *scene);
 void draw_origin();
 
 void help(GLuint texture);
+
+void restart(Scene *scene);
+
+void draw(GLuint texture, float x1,float y1, float x2,float y2);
+
 
 #endif /* SCENE_H */

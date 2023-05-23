@@ -117,18 +117,23 @@ void handle_app_events(App *app)
         case SDL_KEYDOWN:
             switch (event.key.keysym.scancode)
             {
-            case SDL_SCANCODE_T:
-                app->scene.end=clock();
-                printf("Elapsed time: %lf \n",( (float)(app->scene.end - app->scene.start) / CLOCKS_PER_SEC) );
-                if((float)(app->scene.end - app->scene.start) / CLOCKS_PER_SEC > 10)
-                    app->scene.show_win=true;
-                break;
             case SDL_SCANCODE_SPACE:
-                if(app->scene.diamond.score>9){
-                    place_diamond(&(app->scene));
-                    app->scene.diamond.score=0;
-                    app->scene.show_win=false;
+                if(app->scene.show_win || app->scene.show_lose){
+                    restart(&(app->scene));
                 }
+                break;
+            case SDL_SCANCODE_DOWN:
+                if( app->scene.difficulty<3 && app->scene.showHelp == 1){
+                    app->scene.difficulty+=1;
+                    restart(&(app->scene));
+                }
+                break;
+            case SDL_SCANCODE_UP:
+                if( app->scene.difficulty>1 && app->scene.showHelp == 1){
+                    app->scene.difficulty-=1;
+                    restart(&(app->scene));
+                }
+                break;
                 break;
             case SDL_SCANCODE_V:
                 printf("Camera x: %lf y: %lf \n",app->camera.position.x, app->camera.position.y );
@@ -138,16 +143,24 @@ void handle_app_events(App *app)
                 app->is_running = false;
                 break;
             case SDL_SCANCODE_W:
-                set_camera_speed(&(app->camera), 2);
+                if(!(app->scene.show_win || app->scene.show_lose)){
+                    set_camera_speed(&(app->camera), 1);
+                }
                 break;
             case SDL_SCANCODE_S:
-                set_camera_speed(&(app->camera), -2);
+                if(!(app->scene.show_win || app->scene.show_lose)){
+                    set_camera_speed(&(app->camera), -1);
+                }
                 break;
             case SDL_SCANCODE_A:
-                set_camera_side_speed(&(app->camera), 2);
+                if(!(app->scene.show_win || app->scene.show_lose)){
+                    set_camera_side_speed(&(app->camera), 1);
+                }
                 break;
             case SDL_SCANCODE_D:
-                set_camera_side_speed(&(app->camera), -2);
+                if(!(app->scene.show_win || app->scene.show_lose)){
+                    set_camera_side_speed(&(app->camera), -1);
+                }
                 break;
             case SDL_SCANCODE_KP_PLUS:
                 app->scene.light += 0.1;
@@ -193,7 +206,7 @@ void handle_app_events(App *app)
             break;
         case SDL_MOUSEMOTION:
             SDL_GetMouseState(&x, &y);
-            if (is_mouse_down)
+            if (is_mouse_down && !(app->scene.show_win || app->scene.show_lose))
             {
                 rotate_camera(&(app->camera), mouse_x - x, mouse_y - y);
             }
@@ -282,15 +295,42 @@ void render_app(App *app)
     }
 
 
-    if (app->scene.showHelp == 1)
-    {
-        help(app->scene.help_texture_id);
-    }
+    
 
     if(app->scene.show_win){
         help(app->scene.ground_texture);
     }
 
+    if(app->scene.show_lose && !app->scene.show_win){
+        help(app->scene.skybox_texture);
+    }
+
+    if (app->scene.showHelp == 1)
+    {
+        draw(app->scene.help_texture_id,-2.0,1.5,0.7,-1.5);
+        if(app->scene.difficulty==3){
+        app->scene.fog_strength=0.5;
+        app->scene.timer.max_time=46;
+        draw(app->scene.medium_off,0.83,0.445,2.03,-0.445 );
+        draw(app->scene.easy_off,0.83,1.5,2.03,0.61);
+        draw(app->scene.hard_on,0.83,-0.61,2.03,-1.5 ); 
+        }
+        else if(app->scene.difficulty==2){
+        app->scene.fog_strength=0.2;
+        app->scene.timer.max_time=41;
+        draw(app->scene.medium_on,0.83,0.445,2.03,-0.445 );
+        draw(app->scene.easy_off,0.83,1.5,2.03,0.61);
+        draw(app->scene.hard_off,0.83,-0.61,2.03,-1.5);
+        }
+        else{
+        app->scene.fog_strength=0.07;
+        app->scene.timer.max_time=46;
+        draw(app->scene.medium_off,0.83,0.445,2.03,-0.445);
+        draw(app->scene.easy_on,0.83,1.5,2.03,0.61);
+        draw(app->scene.hard_off,0.83,-0.61,2.03,-1.5);
+        }
+    }
+    
     SDL_GL_SwapWindow(app->window);
 }
 
