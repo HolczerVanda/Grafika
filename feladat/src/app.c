@@ -247,7 +247,7 @@ void update_app(App *app)
         if( diamond_y-range < app->camera.position.y &&  app->camera.position.y < diamond_y+range ){
             app->scene.diamond.score++;
             place_diamond(&(app->scene));
-            printf("A pontod : %d \n",app->scene.diamond.score);
+            printf("Score: %d \n",app->scene.diamond.score);
         }
     }
 
@@ -293,9 +293,6 @@ void render_app(App *app)
     {
         show_texture_preview();
     }
-
-
-    
 
     if(app->scene.show_win){
         help(app->scene.ground_texture);

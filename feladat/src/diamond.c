@@ -5,8 +5,8 @@
 
 void init_diamond(Diamond *diamond)
 {
-    load_model(&(diamond->diamond), "assets/models/diamond.obj");
-    diamond->diamond_texture = load_texture("assets/textures/diamond.jpg");
+    load_model(&(diamond->diamond), "assets/models/diamondTransparent.obj");
+    //diamond->diamond_texture = load_texture("assets/textures/diamond.jpg");
 
     diamond->diamond_0_texture= load_texture("assets/textures/diamonds_0.jpg");
     diamond->diamond_1_texture= load_texture("assets/textures/diamonds_1.jpg");
