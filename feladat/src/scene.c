@@ -7,10 +7,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-float waterPoints[45][45][3];
-int wiggleCount = 0;
-float hold;
-
 void init_scene(Scene *scene)
 {
     //glEnable(GL_LIGHTING);
@@ -41,14 +37,17 @@ void init_scene(Scene *scene)
 
     load_model(&(scene->skybox), "assets/models/skyboxSphere.obj");
     scene->skybox_texture = load_texture("assets/textures/sky.jfif");
+    
+    scene->win_texture=load_texture("assets/textures/win.jpg");
+    scene->lose_texture=load_texture("assets/textures/lose.jpg");
 
     scene->material.ambient.red = 0.0;
     scene->material.ambient.green = 0.0;
     scene->material.ambient.blue = 0.0;
 
-    scene->material.diffuse.red = 1.0;
-    scene->material.diffuse.green = 1.0;
-    scene->material.diffuse.blue = 1.0;
+    scene->material.diffuse.red = 0.0;
+    scene->material.diffuse.green = 0.0;
+    scene->material.diffuse.blue = 0.0;
 
     scene->material.specular.red = 0.0;
     scene->material.specular.green = 0.0;
@@ -154,8 +153,9 @@ void render_scene(const Scene *scene)
     glPopMatrix();
 
     // diamond
+    set_material(&(scene->material));
     glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, scene->diamond.diamond_texture);
+    //glBindTexture(GL_TEXTURE_2D, scene->diamond.diamond_texture);
     glTranslatef(scene->diamond.diamond_x, scene->diamond.diamond_y, scene->diamond.rotation_z);
     glRotated(90, 1, 0, 0);
     glRotatef(scene->diamond.rotation_x,0,1,0);
@@ -221,7 +221,7 @@ void draw_origin()
     glEnd();
 }
 
-void help(GLuint texture)
+void additionalWindows(GLuint texture, float different)
 {
     glDisable(GL_FOG);
     glDisable(GL_LIGHTING);
@@ -238,9 +238,9 @@ void help(GLuint texture)
     glTexCoord2f(0, 0);
     glVertex3d(-2, 1.5, -3);
     glTexCoord2f(1, 0);
-    glVertex3d(0.7, 1.5, -3);
+    glVertex3d(different, 1.5, -3);
     glTexCoord2f(1, 1);
-    glVertex3d(0.7, -1.5, -3);
+    glVertex3d(different, -1.5, -3);
     glTexCoord2f(0, 1);
     glVertex3d(-2, -1.5, -3);
     glEnd();
@@ -249,6 +249,16 @@ void help(GLuint texture)
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
     glEnable(GL_FOG);
+}
+
+void help(GLuint texture)
+{
+    additionalWindows(texture, 0.7);
+}
+
+void winAndLose(GLuint texture)
+{
+    additionalWindows(texture, 2);
 }
 
 void restart(Scene *scene){

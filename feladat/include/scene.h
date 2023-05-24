@@ -32,6 +32,9 @@ typedef struct Scene
     GLuint medium_off;
     GLuint hard_off;
 
+    GLuint win_texture;
+    GLuint lose_texture;
+
     Environment environment;
 
     GLuint help_texture_id;
@@ -77,9 +80,12 @@ void draw_origin();
 
 void help(GLuint texture);
 
+void additionalWindows(GLuint texture, float different);
+
+void winAndLose(GLuint texture);
+
 void restart(Scene *scene);
 
 void draw(GLuint texture, float x1,float y1, float x2,float y2);
-
 
 #endif /* SCENE_H */

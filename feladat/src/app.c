@@ -295,16 +295,17 @@ void render_app(App *app)
     }
 
     if(app->scene.show_win){
-        help(app->scene.ground_texture);
+        winAndLose(app->scene.win_texture);
     }
 
     if(app->scene.show_lose && !app->scene.show_win){
-        help(app->scene.skybox_texture);
+        winAndLose(app->scene.lose_texture);
     }
 
     if (app->scene.showHelp == 1)
     {
         draw(app->scene.help_texture_id,-2.0,1.5,0.7,-1.5);
+
         if(app->scene.difficulty==3){
         app->scene.fog_strength=0.5;
         app->scene.timer.max_time=46;
