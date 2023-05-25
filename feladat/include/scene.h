@@ -18,9 +18,13 @@ typedef struct Scene
 
     Model ground;
     GLuint ground_texture;
+
     float light;
+
     bool show_win;
     bool show_lose;
+    GLuint win_texture;
+    GLuint lose_texture;
 
     Model skybox;
     GLuint skybox_texture;
@@ -32,14 +36,10 @@ typedef struct Scene
     GLuint medium_off;
     GLuint hard_off;
 
-    GLuint win_texture;
-    GLuint lose_texture;
-
     Environment environment;
-
-    GLuint help_texture_id;
     
     int showHelp;
+    GLuint help_texture_id;
 
 } Scene;
 

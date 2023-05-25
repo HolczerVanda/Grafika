@@ -6,7 +6,6 @@
 void init_diamond(Diamond *diamond)
 {
     load_model(&(diamond->diamond), "assets/models/diamondTransparent.obj");
-    //diamond->diamond_texture = load_texture("assets/textures/diamond.jpg");
 
     diamond->diamond_0_texture= load_texture("assets/textures/diamonds_0.jpg");
     diamond->diamond_1_texture= load_texture("assets/textures/diamonds_1.jpg");
@@ -21,17 +20,11 @@ void init_diamond(Diamond *diamond)
     diamond->diamond_10_texture= load_texture("assets/textures/diamonds_10.jpg");
 
     srand(rand());
-    float random_x= (float)rand()/(float)(RAND_MAX/7)-3.5;
-    float random_y= (float)rand()/(float)(RAND_MAX/7)-3.5;
-    //diamond->diamond_x = random_x;
-    //diamond->diamond_y= random_y;
     diamond->diamond_x = 0;
     diamond->diamond_y= 0;
     diamond->rotation_x=0.0;
-    diamond->rotation_z=0.6;
+    diamond->position_z=0.6;
     diamond->score=0;
-    diamond->is_max=false;
-    diamond->is_min=true;
 }
 
 void points (Diamond *diamond){
@@ -77,7 +70,6 @@ void points (Diamond *diamond){
     glDisable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
     glDisable(GL_DEPTH_TEST);
-    //glDisable(GL_FOG);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -99,7 +91,6 @@ void points (Diamond *diamond){
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
-    //glEnable(GL_FOG);
 
     glFrustum(
                         -.08, .08,

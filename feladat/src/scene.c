@@ -9,11 +9,6 @@
 
 void init_scene(Scene *scene)
 {
-    //glEnable(GL_LIGHTING);
-    //glEnable(GL_LIGHT0);
-    //glEnable(GL_FOG);
-    //glFogf(GL_FOG_DENSITY, 0.007f);
-
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -21,7 +16,6 @@ void init_scene(Scene *scene)
 
     scene->difficulty=1;
     scene->fog_strength=0.07;
-
 
     scene->easy_on = load_texture("assets/textures/easy_1.jpg");
     scene->medium_on = load_texture("assets/textures/normal_1.jpg");
@@ -33,6 +27,7 @@ void init_scene(Scene *scene)
 
     load_model(&(scene->ground), "assets/models/ground.obj");
     scene->ground_texture = load_texture("assets/textures/ground_texture.jpg");
+
     scene->help_texture_id = load_texture("assets/textures/help_texture.jpg");
 
     load_model(&(scene->skybox), "assets/models/skyboxSphere.obj");
@@ -45,24 +40,22 @@ void init_scene(Scene *scene)
     scene->material.ambient.green = 0.0;
     scene->material.ambient.blue = 0.0;
 
-    scene->material.diffuse.red = 0.0;
-    scene->material.diffuse.green = 0.0;
-    scene->material.diffuse.blue = 0.0;
+    scene->material.diffuse.red = 1.0;
+    scene->material.diffuse.green = 1.0;
+    scene->material.diffuse.blue = 1.0;
 
     scene->material.specular.red = 0.0;
     scene->material.specular.green = 0.0;
     scene->material.specular.blue = 0.0;
 
-    scene->material.shininess = 10.0;
+    scene->material.shininess = 0.0;
 
-    
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_FOG);
     float color[]={0.5,0.5,0.5,1.0};
     glFogfv(GL_FOG_COLOR,color);
     glFogf(GL_FOG_DENSITY, scene->fog_strength);
-    //glHint(GL_FOG_HINT, GL_NICEST);
     glFogf(GL_FOG_START,0.0f); 
     glFogf(GL_FOG_END,1.0f);
     scene->light = 0.4f;
@@ -72,13 +65,10 @@ void init_scene(Scene *scene)
     init_timer(&(scene->timer));
 
     scene->showHelp = 1;
-
     scene->diamond.score = 0;
-    scene->show_win=false;
-
     scene->timer.start=clock();
+    scene->show_win=false;
     scene->show_lose=false;
-
 }
 
 void set_lighting(float x)
@@ -114,7 +104,6 @@ void set_material(const Material *material)
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_material_color);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_material_color);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular_material_color);
-
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &(material->shininess));
 }
 
@@ -127,7 +116,6 @@ void update_scene(Scene *scene)
     }
 
     scene->timer.end=clock();
-    //printf("Elapsed time: %lf \n",( (float)(scene->timer.end - scene->timer.start) / CLOCKS_PER_SEC) );
     if((float)(scene->timer.end - scene->timer.start) / CLOCKS_PER_SEC > scene->timer.max_time)
         scene->show_lose=true;
 }
@@ -143,7 +131,6 @@ void place_diamond(Scene *scene)
 
 void render_scene(const Scene *scene)
 {
-    
     // ground
     glPushMatrix();
     glScalef(0.5, 0.5, 0.5);
@@ -153,15 +140,32 @@ void render_scene(const Scene *scene)
     glPopMatrix();
 
     // diamond
-    set_material(&(scene->material));
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    float ambient_material_color[] = {0.2f, 0.58f, 0.92f};
+    float diffuse_material_color[] = {1.0f, 1.0f, 1.0f, 0.85f};
+    float specular_material_color[] = {1.0f, 1.0f, 1.0f};
+
+    float shininess= 50.0;
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient_material_color);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse_material_color);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular_material_color);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
+
     glPushMatrix();
-    //glBindTexture(GL_TEXTURE_2D, scene->diamond.diamond_texture);
-    glTranslatef(scene->diamond.diamond_x, scene->diamond.diamond_y, scene->diamond.rotation_z);
+    glBindTexture(GL_TEXTURE_2D, scene->diamond.diamond_texture);
+
+    glTranslatef(scene->diamond.diamond_x, scene->diamond.diamond_y, scene->diamond.position_z);
     glRotated(90, 1, 0, 0);
     glRotatef(scene->diamond.rotation_x,0,1,0);
     draw_model(&(scene->diamond.diamond));  
     glPopMatrix();
 
+    set_material(&(scene->material));
+
+    glDisable(GL_BLEND);
+
+    // tree
     glPushMatrix();
     glScalef(0.5, 0.5, 0.5);
     glBindTexture(GL_TEXTURE_2D, scene->environment.tree_texture);
@@ -169,6 +173,7 @@ void render_scene(const Scene *scene)
     draw_model(&(scene->environment.Tree));
     glPopMatrix();
 
+    // stone
     glPushMatrix();
     glScalef(0.5, 0.5, 0.5);
     glBindTexture(GL_TEXTURE_2D, scene->environment.stone_texture);
@@ -176,6 +181,7 @@ void render_scene(const Scene *scene)
     draw_model(&(scene->environment.Stone));
     glPopMatrix();
 
+    // bush
     glPushMatrix();
     glScalef(0.5, 0.5, 0.5);
     glBindTexture(GL_TEXTURE_2D, scene->environment.bush_texture);
@@ -183,6 +189,7 @@ void render_scene(const Scene *scene)
     draw_model(&(scene->environment.Bush));
     glPopMatrix();
 
+    // hill
     glPushMatrix();
     glScalef(0.5, 0.5, 0.5);
     glBindTexture(GL_TEXTURE_2D, scene->environment.hill_texture);
@@ -194,7 +201,7 @@ void render_scene(const Scene *scene)
     glPushMatrix();
     glScalef(0.5, 0.5, 0.5);
     glBindTexture(GL_TEXTURE_2D, scene->skybox_texture);
-    //glRotated(0, 0, 0, 0);
+
     draw_model(&(scene->skybox));
     glPopMatrix();
 
@@ -268,7 +275,7 @@ void restart(Scene *scene){
     scene->show_lose=false;
 }
 
-void draw(GLuint texture, float x1,float y1, float x2,float y2){
+void draw(GLuint texture, float x1, float y1, float x2, float y2){
     glDisable(GL_FOG);
     glDisable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);

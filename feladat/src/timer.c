@@ -12,7 +12,7 @@ void init_timer(Timer *timer)
     timer->timer_4_texture= load_texture("assets/textures/clocks_1.jpg");
     timer->timer_5_texture= load_texture("assets/textures/clocks_0.jpg");
 
-    timer->max_time = 5;
+    timer->max_time;
 }
 
 void clocks(Timer *timer){

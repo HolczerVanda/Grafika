@@ -21,9 +21,6 @@ void init_camera(Camera *camera)
 
 void update_camera(Camera *camera, double time)
 {
-
-    // printf("x: %f, y: %f", camera->position.x, camera->position.y);
-
     double angle;
     double side_angle;
 
@@ -118,8 +115,6 @@ void show_texture_preview()
 
 int check_collisions(vec3 newposition)
 {
-    //printf("x: %f, y: %f, z: %f\n", newposition.x, newposition.y, newposition.z);
-
     /* map Y edges */
     if ((newposition.y < -8) || (newposition.y > 7.5))
         return 1;
@@ -127,7 +122,6 @@ int check_collisions(vec3 newposition)
     /* map X edges */
     if ((newposition.x < -8) || (newposition.x > 8))
         return 1;
-
 
     //Trees
     if (calc_collision(newposition, 2.53, -5.51, 0.2, 0.3) == 1)

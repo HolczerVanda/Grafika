@@ -134,11 +134,6 @@ void handle_app_events(App *app)
                     restart(&(app->scene));
                 }
                 break;
-                break;
-            case SDL_SCANCODE_V:
-                printf("Camera x: %lf y: %lf \n",app->camera.position.x, app->camera.position.y );
-                printf("Diamond x: %lf y: %lf \n",app->scene.diamond.diamond_x, app->scene.diamond.diamond_y );
-                break;
             case SDL_SCANCODE_ESCAPE:
                 app->is_running = false;
                 break;
@@ -230,53 +225,37 @@ void update_app(App *app)
     SDL_Event event;
     double current_time;
     double elapsed_time;
+    double last_time;
     double diamond_x=app->scene.diamond.diamond_x;
     double diamond_y=app->scene.diamond.diamond_y;
 
     current_time = (double)SDL_GetTicks() / 1000;
     elapsed_time = current_time - app->uptime;
+
     app->uptime = current_time;
 
     update_camera(&(app->camera), elapsed_time);
     update_scene(&(app->scene));
 
-    //printf("diamond x: %lf diamond y: %lf\n", app->scene.diamond.diamond_x, app->scene.diamond.diamond_y);
     double range = 0.65;
 
     if(diamond_x-range < app->camera.position.x &&  app->camera.position.x < diamond_x+range){
         if( diamond_y-range < app->camera.position.y &&  app->camera.position.y < diamond_y+range ){
             app->scene.diamond.score++;
             place_diamond(&(app->scene));
-            printf("Score: %d \n",app->scene.diamond.score);
         }
     }
 
-    app->scene.diamond.rotation_x += 1 * 0.075;
+    app->scene.diamond.rotation_x += 1 * 0.065;
 
     if (app->scene.diamond.rotation_x > 360.0)
     {
         app->scene.diamond.rotation_x -= 360.0;
     }
 
+   app->scene.diamond.position_z = (sin ((current_time - last_time)) +1.7)/10.5 +0.55;
+   last_time=current_time;
 
-    if(app->scene.diamond.rotation_z<0.8 && app->scene.diamond.is_min){
-        double diamond_z=app->scene.diamond.rotation_z +0.00007;
-        app->scene.diamond.rotation_z= diamond_z;
-    }
-    if ( app->scene.diamond.rotation_z > 0.8){
-        app->scene.diamond.is_max=true;
-        app->scene.diamond.is_min=false;
-    }
-    if (app->scene.diamond.rotation_z>0.6 && app->scene.diamond.is_max ){
-        double diamond_z=app->scene.diamond.rotation_z -0.00007;
-        app->scene.diamond.rotation_z= diamond_z;
-    }
-    if (  app->scene.diamond.rotation_z<0.6 ){
-        app->scene.diamond.is_max=false;
-        app->scene.diamond.is_min=true;
-    }
-
-    
 }
 
 void render_app(App *app)

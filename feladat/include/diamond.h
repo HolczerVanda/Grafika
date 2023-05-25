@@ -14,9 +14,7 @@ typedef struct Diamond
     float diamond_x;
     float diamond_y;
     float rotation_x;
-    float rotation_z;
-    bool is_max;
-    bool is_min;
+    float position_z;
     int score;
     GLuint diamond_0_texture;
     GLuint diamond_1_texture;
